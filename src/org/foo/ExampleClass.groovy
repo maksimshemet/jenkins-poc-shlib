@@ -5,16 +5,15 @@ class ExampleClass {
         // Parse YAML input
         def yaml = new Yaml()
         def data = yaml.load(yamlInput)
-        def image = data?.image
         def command = data?.command
 
-        if (!command && !image) {
-            throw new IllegalArgumentException("YAML must contain a 'command' and 'image' key")
+        if (!command) {
+            throw new IllegalArgumentException("YAML must contain a 'command' key")
         }
 
         // Build Docker command
-        def dockerCmd = "docker run --rm ${image} sh -c '${command}'"
-        def process = dockerCmd.execute()
+        def cmd = "sh -c '${command}'"
+        def process = cmd.execute()
         def output = process.text
         def exitCode = process.waitFor()
 
