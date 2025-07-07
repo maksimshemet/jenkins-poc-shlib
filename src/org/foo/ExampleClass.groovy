@@ -15,7 +15,7 @@ class ExampleClass {
         def cmd = "sh -c '${command}'"
         def process = cmd.execute()
         def output = process.text
-        def error = process.err.text
+        def error = process
         def exitCode = process.waitFor()
 
         return [output: output, exitCode: exitCode, error: error]
