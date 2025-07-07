@@ -11,13 +11,13 @@ class ExampleClass {
             throw new IllegalArgumentException("YAML must contain a 'command' key")
         }
 
-        // Build Docker command
-        def cmd = "sh -c '${command}'"
-        def process = cmd.execute()
-        def output = process.text
-        def error = process
+        def process = ["sh", "-c", command].execute()
+        def output = new StringBuffer()
+        def error = new StringBuffer()
+
+        process.consumeProcessOutput(output, error)
         def exitCode = process.waitFor()
 
-        return [output: output, exitCode: exitCode, error: error]
+        return [output: output.toString(), exitCode: exitCode, error: error.toString()]
     }
 }
